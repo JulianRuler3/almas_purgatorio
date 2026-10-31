@@ -23,7 +23,7 @@ const CAMPOS = [
   { id: "horasSantas",   tipo: "numero", etiqueta: "Horas Santas" },
   { id: "sacGrande",     tipo: "texto",  etiqueta: "Sacrificio grandote" },
   { id: "sacPequeno",    tipo: "texto",  etiqueta: "Sacrificio pequeñín", ayuda: "No por ello menos valioso" },
-  { id: "otrosActos",    tipo: "texto",  etiqueta: "Otros actos", ayuda: "No hace falta que pongas el acto concreto" }
+  { id: "otrosActos",    tipo: "texto",  etiqueta: "Otros actos", ayuda: "No hace falta que pongas el acto concreto, sino busca un término general en el que se pueda englobar" }
 ];
 const ID_OTRO = "otro";
 /* ======================================= */
