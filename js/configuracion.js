@@ -12,6 +12,7 @@ const OPCIONES = [
   "Caridad/Agradecimiento - Envidia",
   "Piedad - Tibieza",
   "Mansedumbre - Rebeldía"
+  "Por todas en general"
 ];
  
 // tipo: "numero" o "texto"
