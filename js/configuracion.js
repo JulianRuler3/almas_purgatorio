@@ -11,7 +11,7 @@ const OPCIONES = [
   "Paciencia/Comprensión - Ira",
   "Caridad/Agradecimiento - Envidia",
   "Piedad - Tibieza",
-  "Mansedumbre - Rebeldía"
+  "Mansedumbre - Rebeldía",
   "Por todas en general"
 ];
  
