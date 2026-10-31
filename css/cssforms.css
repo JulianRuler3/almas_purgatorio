@@ -1,0 +1,94 @@
+:root {
+    --morado: #673ab7;
+    --morado-oscuro: #5e35b1;
+    --fondo: #f0ebf8;
+    --texto: #202124;
+    --texto-suave: #5f6368;
+    --borde: #dadce0;
+    --error: #d93025;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fondo);
+    font-family: "Roboto", Arial, sans-serif;
+    color: var(--texto);
+    font-size: 14px;
+  }
+  .contenedor { max-width: 640px; margin: 0 auto; padding: 12px 12px 48px; }
+  .tarjeta {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 12px;
+  }
+  .tarjeta[hidden] { display: none; }
+  .tarjeta.cabecera { border-top: 10px solid var(--morado); padding-top: 22px; }
+  .tarjeta.seccion { border-left: 6px solid var(--morado); }
+  h1 { font-family: "Google Sans", "Roboto", sans-serif; font-size: 32px; font-weight: 400; margin: 0 0 12px; }
+  h2 { font-family: "Google Sans", "Roboto", sans-serif; font-size: 22px; font-weight: 400; margin: 0 0 4px; }
+  .descripcion { color: var(--texto); font-size: 14px; line-height: 1.5; }
+  .obligatorio-nota { color: var(--error); font-size: 12px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--borde); }
+  .pregunta { font-size: 16px; font-weight: 400; margin-bottom: 14px; line-height: 1.4; }
+  .pregunta .ast, .campo label .ast { color: var(--error); }
+  .campo { margin-top: 28px; }
+  .campo label { display: block; font-size: 16px; margin-bottom: 4px; line-height: 1.4; }
+  .campo .ayuda { display: block; font-size: 12px; color: var(--texto-suave); margin-bottom: 6px; }
+
+  input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--borde);
+    background: transparent;
+    font: inherit;
+    font-size: 14px;
+    padding: 8px 0;
+    outline: none;
+    color: var(--texto);
+    transition: border-color .15s;
+    border-radius: 0;
+  }
+  input[type="number"] { max-width: 50%; }
+  textarea { resize: vertical; min-height: 36px; }
+  input:focus, textarea:focus { border-bottom: 2px solid var(--morado); padding-bottom: 7px; }
+  input:disabled, textarea:disabled { opacity: .5; }
+
+  /* Casillas */
+  .opcion { display: flex; align-items: center; gap: 14px; padding: 8px 0; cursor: pointer; font-size: 14px; }
+  .opcion input { position: absolute; opacity: 0; pointer-events: none; }
+  .caja {
+    width: 18px; height: 18px; flex: none;
+    border: 2px solid var(--texto-suave);
+    border-radius: 2px;
+    display: grid; place-items: center;
+    transition: background .15s, border-color .15s;
+  }
+  .opcion input:checked + .caja { background: var(--morado); border-color: var(--morado); }
+  .opcion input:checked + .caja::after {
+    content: ""; width: 4px; height: 9px;
+    border: solid #fff; border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translate(-1px, -1px);
+  }
+  .opcion input:focus-visible + .caja { box-shadow: 0 0 0 6px rgba(103,58,183,.2); }
+  #otro-texto { margin-left: 32px; width: calc(100% - 32px); }
+  #otro-texto[hidden] { display: none; }
+
+  .error-msg { color: var(--error); font-size: 12px; margin-top: 8px; display: none; }
+  .tarjeta.con-error { border-color: var(--error); }
+  .tarjeta.con-error .error-msg { display: block; }
+
+  .acciones { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; }
+  button {
+    background: var(--morado); color: #fff; border: none;
+    font-family: "Google Sans", "Roboto", sans-serif; font-size: 14px; font-weight: 500;
+    padding: 10px 24px; border-radius: 4px; cursor: pointer; letter-spacing: .25px;
+    transition: background .15s, box-shadow .15s;
+  }
+  button:hover { background: var(--morado-oscuro); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+  button:disabled { opacity: .6; cursor: default; }
+  button.texto { background: none; color: var(--morado); padding: 10px 8px; }
+  button.texto:hover { background: rgba(103,58,183,.08); box-shadow: none; }
+  #estado { color: var(--error); font-size: 13px; margin-top: 12px; }
+  #gracias[hidden], #formulario[hidden] { display: none; }
+  .pie { text-align: center; color: var(--texto-suave); font-size: 12px; margin-top: 24px; }
