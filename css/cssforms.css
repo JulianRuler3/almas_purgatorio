@@ -1,11 +1,13 @@
 :root {
-    --morado: #673ab7;
-    --morado-oscuro: #5e35b1;
-    --fondo: #f0ebf8;
-    --texto: #202124;
-    --texto-suave: #5f6368;
-    --borde: #dadce0;
-    --error: #d93025;
+    --morado: #A89A7C;          /* acento: cabecera, casillas, botón, foco */
+    --morado-oscuro: #BCAF92;   /* acento al pasar el ratón */
+    --sobre-acento: #2E2820;    /* texto sobre el acento (botón, marca de casilla) */
+    --fondo: #3F382E;           /* fondo de la página */
+    --tarjeta: #655B4A;         /* fondo de los bloques */
+    --texto: #EDE8B8;
+    --texto-suave: #C9C0B6;
+    --borde: #8C8068;
+    --error: #FF9E80;
   }
   * { box-sizing: border-box; }
   body {
@@ -17,7 +19,7 @@
   }
   .contenedor { max-width: 640px; margin: 0 auto; padding: 12px 12px 48px; }
   .tarjeta {
-    background: #fff;
+    background: var(--tarjeta);
     border: 1px solid var(--borde);
     border-radius: 8px;
     padding: 24px;
@@ -35,7 +37,7 @@
   .campo { margin-top: 28px; }
   .campo label { display: block; font-size: 16px; margin-bottom: 4px; line-height: 1.4; }
   .campo .ayuda { display: block; font-size: 12px; color: var(--texto-suave); margin-bottom: 6px; }
-
+ 
   input[type="text"], input[type="number"], textarea {
     width: 100%;
     border: none;
@@ -53,7 +55,8 @@
   textarea { resize: vertical; min-height: 36px; }
   input:focus, textarea:focus { border-bottom: 2px solid var(--morado); padding-bottom: 7px; }
   input:disabled, textarea:disabled { opacity: .5; }
-
+  input::placeholder, textarea::placeholder { color: var(--texto-suave); opacity: .7; }
+ 
   /* Casillas */
   .opcion { display: flex; align-items: center; gap: 14px; padding: 8px 0; cursor: pointer; font-size: 14px; }
   .opcion input { position: absolute; opacity: 0; pointer-events: none; }
@@ -67,20 +70,20 @@
   .opcion input:checked + .caja { background: var(--morado); border-color: var(--morado); }
   .opcion input:checked + .caja::after {
     content: ""; width: 4px; height: 9px;
-    border: solid #fff; border-width: 0 2px 2px 0;
+    border: solid var(--sobre-acento); border-width: 0 2px 2px 0;
     transform: rotate(45deg) translate(-1px, -1px);
   }
-  .opcion input:focus-visible + .caja { box-shadow: 0 0 0 6px rgba(103,58,183,.2); }
+  .opcion input:focus-visible + .caja { box-shadow: 0 0 0 6px rgba(168,154,124,.25); }
   #otro-texto { margin-left: 32px; width: calc(100% - 32px); }
   #otro-texto[hidden] { display: none; }
-
+ 
   .error-msg { color: var(--error); font-size: 12px; margin-top: 8px; display: none; }
   .tarjeta.con-error { border-color: var(--error); }
   .tarjeta.con-error .error-msg { display: block; }
-
+ 
   .acciones { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; }
   button {
-    background: var(--morado); color: #fff; border: none;
+    background: var(--morado); color: var(--sobre-acento); border: none;
     font-family: "Google Sans", "Roboto", sans-serif; font-size: 14px; font-weight: 500;
     padding: 10px 24px; border-radius: 4px; cursor: pointer; letter-spacing: .25px;
     transition: background .15s, box-shadow .15s;
@@ -88,7 +91,7 @@
   button:hover { background: var(--morado-oscuro); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
   button:disabled { opacity: .6; cursor: default; }
   button.texto { background: none; color: var(--morado); padding: 10px 8px; }
-  button.texto:hover { background: rgba(103,58,183,.08); box-shadow: none; }
+  button.texto:hover { background: rgba(168,154,124,.12); box-shadow: none; }
   #estado { color: var(--error); font-size: 13px; margin-top: 12px; }
   #gracias[hidden], #formulario[hidden] { display: none; }
   .pie { text-align: center; color: var(--texto-suave); font-size: 12px; margin-top: 24px; }
