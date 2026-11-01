@@ -86,7 +86,7 @@ function crearCuestionario(clave, tituloInicial) {
   const errT = document.createElement("div");
   errT.className = "error-msg";
   errT.style.marginTop = "20px";
-  errT.textContent = "Responde al menos una pregunta de este cuestionario";
+  errT.textContent = "Escribe un número mayor que 0 o algún texto en al menos una pregunta";
   tarjeta.appendChild(errT);
  
   contenedor.appendChild(tarjeta);
@@ -174,7 +174,7 @@ form.addEventListener("submit", async e => {
       const mal = valor !== "" && c.tipo === "numero" && (isNaN(Number(valor)) || Number(valor) < 0);
       input.closest(".campo").querySelector(".error-msg").style.display = mal ? "block" : "none";
       if (mal) { tarjetaMal = true; primerError = primerError || input; }
-      if (valor !== "") algunaRespondida = true;
+      if (c.tipo === "numero" ? (valor !== "" && Number(valor) > 0) : (valor !== "" && valor !== "-")) algunaRespondida = true;
       if (valor === "") fila[c.id] = c.tipo === "numero" ? 0 : "-";
       else fila[c.id] = c.tipo === "numero" ? Number(valor) : valor;
     });
