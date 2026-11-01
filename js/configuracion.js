@@ -18,7 +18,7 @@ const OPCIONES = [
 // tipo: "numero" o "texto"
 const CAMPOS = [
   { id: "misas",         tipo: "numero", etiqueta: "Misas ofrecidas" },
-  { id: "horas",         tipo: "numero", etiqueta: "Horas de estudio/trabajo" },
+  { id: "horas",         tipo: "numero", etiqueta: "Horas de estudio/trabajo bien hecho" },
   { id: "misterios",     tipo: "numero", etiqueta: "Misterios", ayuda: "Si has ofrecido un rosario, pon 5 misterios" },
   { id: "horasSantas",   tipo: "numero", etiqueta: "Horas Santas" },
   { id: "sacGrande",     tipo: "texto",  etiqueta: "Sacrificio grandote" },
