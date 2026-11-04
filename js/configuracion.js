@@ -18,9 +18,9 @@ const OPCIONES = [
 // tipo: "numero" o "texto"
 const CAMPOS = [
   { id: "misas",         tipo: "numero", etiqueta: "Misas ofrecidas" },
-  { id: "horas",         tipo: "numero", etiqueta: "Horas de estudio/trabajo bien hecho" },
+  { id: "horas",         tipo: "numero", decimales: true, etiqueta: "Horas de estudio/trabajo bien hecho" },
   { id: "misterios",     tipo: "numero", etiqueta: "Misterios", ayuda: "Si has ofrecido un rosario, pon 5 misterios" },
-  { id: "horasSantas",   tipo: "numero", etiqueta: "Horas Santas" },
+  { id: "horasSantas",   tipo: "numero", decimales:true, etiqueta: "Horas Santas" },
   { id: "sacGrande",     tipo: "texto",  etiqueta: "Sacrificio grandote" },
   { id: "sacPequeno",    tipo: "texto",  etiqueta: "Sacrificio pequeñín", ayuda: "No por ello menos valioso" },
   { id: "otrosActos",    tipo: "texto",  etiqueta: "Otros actos", ayuda: "No hace falta que pongas el acto concreto, sino busca un término general en el que se pueda englobar" }
@@ -61,8 +61,8 @@ function crearCuestionario(clave, tituloInicial) {
       input = document.createElement("input");
       input.type = "number";
       input.min = "0";
-      input.step = "any";
-      input.inputMode = "decimal";
+      input.step = c.decimales ? "any" : "1";
+      input.inputMode = c.decimales ? "decimal" : "numeric";
     } else {
       input = document.createElement("textarea");
       input.rows = 1;
@@ -77,7 +77,7 @@ function crearCuestionario(clave, tituloInicial) {
     campo.appendChild(input);
     const err = document.createElement("div");
     err.className = "error-msg";
-    err.textContent = "Introduce un número válido (0 o más)";
+    err.textContent = c.decimales ? "Introduce un número válido (0 o más)" : "Introduce un número entero (0 o más), vale media (.5)";
     campo.appendChild(err);
     tarjeta.appendChild(campo);
     inputs[c.id] = input;
@@ -171,7 +171,7 @@ form.addEventListener("submit", async e => {
     CAMPOS.forEach(c => {
       const input = q.inputs[c.id];
       const valor = input.value.trim();
-      const mal = valor !== "" && c.tipo === "numero" && (isNaN(Number(valor)) || Number(valor) < 0);
+      const mal = valor !== "" && c.tipo === "numero" && (isNaN(Number(valor)) || Number(valor) < 0 || (!c.decimales && !Number.isInteger(Number(valor))));
       input.closest(".campo").querySelector(".error-msg").style.display = mal ? "block" : "none";
       if (mal) { tarjetaMal = true; primerError = primerError || input; }
       if (c.tipo === "numero" ? (valor !== "" && Number(valor) > 0) : (valor !== "" && valor !== "-")) algunaRespondida = true;
