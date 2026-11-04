@@ -61,7 +61,7 @@ function crearCuestionario(clave, tituloInicial) {
       input = document.createElement("input");
       input.type = "number";
       input.min = "0";
-      input.step = c.decimales ? "any" : "1";
+      input.step = c.decimales ? "0.5" : "1";
       input.inputMode = c.decimales ? "decimal" : "numeric";
     } else {
       input = document.createElement("textarea");
