@@ -257,3 +257,21 @@ document.getElementById("otra").addEventListener("click", () => {
   document.getElementById("gracias").hidden = true;
   form.hidden = false;
 });
+/* Frase del pie: siempre con el ancho del bloque de la encuesta, en una sola línea */
+const pieTexto = document.querySelector("footer p");
+const bloque = document.getElementById("tarjeta-opciones");
+
+function ajustarPie() {
+  const ancho = bloque.getBoundingClientRect().width;
+  const medir = px => { pieTexto.style.fontSize = px + "px"; return pieTexto.getBoundingClientRect().width; };
+  const w50 = medir(50), w100 = medir(100);
+  const pendiente = (w100 - w50) / 50;                // ancho que añade cada px de letra
+  const fijo = w100 - pendiente * 100;                // parte que no escala (p. ej. letter-spacing en px)
+  pieTexto.style.fontSize = Math.max(1, Math.floor((ancho - fijo) / pendiente * 10) / 10) + "px";
+}
+ajustarPie();
+new ResizeObserver(ajustarPie).observe(bloque);
+if (document.fonts) {
+  document.fonts.ready.then(ajustarPie);
+  document.fonts.addEventListener("loadingdone", ajustarPie);
+}

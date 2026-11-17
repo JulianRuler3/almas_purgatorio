@@ -45,8 +45,10 @@
   .campo label { display: block; font-size: 16px; margin-bottom: 4px; line-height: 1.4; }
   .campo .ayuda { display: block; font-size: 12px; color: var(--texto-suave); margin-bottom: 6px; }
  footer p{
-  text-align: center;
-  font-size: .7rem;
+   text-align: center;
+   white-space: nowrap; 
+   width: max-content; 
+   margin: 0 auto;
  }
   input[type="text"], input[type="number"], textarea {
     width: 100%;
