@@ -18,16 +18,44 @@ const OPCIONES = [
 // tipo: "numero" o "texto"
 const CAMPOS = [
   { id: "misas",         tipo: "numero", etiqueta: "Misas ofrecidas" },
-  { id: "horas",         tipo: "numero", decimales: true, etiqueta: "Horas de estudio/trabajo bien hecho" },
+  { id: "horas",         tipo: "numero", etiqueta: "Horas de estudio/trabajo bien hecho" },
   { id: "misterios",     tipo: "numero", etiqueta: "Misterios", ayuda: "Si has ofrecido un rosario, pon 5 misterios" },
-  { id: "horasSantas",   tipo: "numero", decimales:true, etiqueta: "Horas Santas" },
+  { id: "horasSantas",   tipo: "numero", etiqueta: "Horas Santas" },
   { id: "sacGrande",     tipo: "texto",  etiqueta: "Sacrificio grandote" },
   { id: "sacPequeno",    tipo: "texto",  etiqueta: "Sacrificio pequeñín", ayuda: "No por ello menos valioso" },
   { id: "otrosActos",    tipo: "texto",  etiqueta: "Otros actos", ayuda: "No hace falta que pongas el acto concreto, sino busca un término general en el que se pueda englobar" }
 ];
 const ID_OTRO = "otro";
 /* ======================================= */
- 
+// "Otros actos": ejemplos de cada opción, en el mismo orden que OPCIONES (sin "Por todas en general")
+const ACTOS = [
+  ["Pedir perdón", "Reconocer virtudes ajenas", "Aceptar el anonimato", "Servir ocultamente"],   // Humildad - Soberbia
+  ["Levantarse puntualmente", "Trabajar con diligencia", "Terminar lo comenzado", "Priorizar el servicio"],   // Diligencia - Pereza
+  ["Custodiar la mirada", "Vestir con modestia", "Evitar contenidos nocivos", "Cuidar los gestos"],   // Pureza - Lujuria
+  ["Compartir sin reservas", "Dar tiempo y atención", "Renunciar a lo innecesario", "Vivir desprendido"],   // Generosidad/Austeridad - Avaricia
+  ["Renunciar a caprichos", "Dominar los apetitos", "Moderar deseos espirituales", "Aceptar las privaciones"],   // Templanza - Gula
+  ["Aceptar contratiempos", "Esperar sin impaciencia", "Escuchar sin interrumpir", "Renunciar a comodidades"],   // Paciencia/Comprensión - Ira
+  ["Evitar comparaciones", "Alegrarse del bien ajeno", "Reconocer virtudes ajenas", "Buscar el bien ajeno"],   // Caridad/Agradecimiento - Envidia
+  ["Vivir con recogimiento", "Rezar con devoción", "Entregarse plenamente", "Responder sin demora"],   // Piedad - Tibieza
+  ["Obedecer con delicadeza", "Aceptar buenos consejos", "Reconocer la verdad ajena", "Aceptar la voluntad divina"],   // Mansedumbre - Rebeldía
+];
+const SEPARADOR_ACTOS = "\u00A0· ";   // punto central (el espacio duro evita que el punto empiece una línea)
+
+function alAzar(lista, n) {
+  const copia = [...new Set(lista)];          // sin repetidos
+  for (let i = copia.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[j]] = [copia[j], copia[i]];
+  }
+  return copia.slice(0, n);
+}
+
+// Texto de ayuda de "Otros actos" por cuestionario: clave "op0", "op1"...
+const AYUDA_OTROS_ACTOS = {};
+ACTOS.forEach((lista, i) => { AYUDA_OTROS_ACTOS["op" + i] = lista.join(SEPARADOR_ACTOS); });
+AYUDA_OTROS_ACTOS["op" + OPCIONES.indexOf("Por todas en general")] =
+  alAzar(ACTOS.flat(), 4).join(SEPARADOR_ACTOS);
+
 const lista = document.getElementById("lista-opciones");
 const contenedor = document.getElementById("cuestionarios");
 const cuestionarios = {}; // clave -> {tarjeta, titulo, inputs}
@@ -50,10 +78,11 @@ function crearCuestionario(clave, tituloInicial) {
     label.htmlFor = idInput;
     label.textContent = c.etiqueta;
     campo.appendChild(label);
-    if (c.ayuda) {
+    const textoAyuda = (c.id === "otrosActos" && AYUDA_OTROS_ACTOS[clave]) || c.ayuda;
+    if (textoAyuda) {
       const ayuda = document.createElement("span");
       ayuda.className = "ayuda";
-      ayuda.textContent = c.ayuda;
+      ayuda.textContent = textoAyuda;
       campo.appendChild(ayuda);
     }
     let input;
@@ -61,8 +90,8 @@ function crearCuestionario(clave, tituloInicial) {
       input = document.createElement("input");
       input.type = "number";
       input.min = "0";
-      input.step = c.decimales ? "0.5" : "1";
-      input.inputMode = c.decimales ? "decimal" : "numeric";
+      input.step = "any";
+      input.inputMode = "decimal";
     } else {
       input = document.createElement("textarea");
       input.rows = 1;
@@ -77,7 +106,7 @@ function crearCuestionario(clave, tituloInicial) {
     campo.appendChild(input);
     const err = document.createElement("div");
     err.className = "error-msg";
-    err.textContent = c.decimales ? "Introduce un número válido (0 o más)" : "Introduce un número entero (0 o más), vale media (.5)";
+    err.textContent = "Introduce un número válido (0 o más)";
     campo.appendChild(err);
     tarjeta.appendChild(campo);
     inputs[c.id] = input;
@@ -171,7 +200,7 @@ form.addEventListener("submit", async e => {
     CAMPOS.forEach(c => {
       const input = q.inputs[c.id];
       const valor = input.value.trim();
-      const mal = valor !== "" && c.tipo === "numero" && (isNaN(Number(valor)) || Number(valor) < 0 || (!c.decimales && !Number.isInteger(Number(valor))));
+      const mal = valor !== "" && c.tipo === "numero" && (isNaN(Number(valor)) || Number(valor) < 0);
       input.closest(".campo").querySelector(".error-msg").style.display = mal ? "block" : "none";
       if (mal) { tarjetaMal = true; primerError = primerError || input; }
       if (c.tipo === "numero" ? (valor !== "" && Number(valor) > 0) : (valor !== "" && valor !== "-")) algunaRespondida = true;

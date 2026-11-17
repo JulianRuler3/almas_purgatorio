@@ -17,6 +17,13 @@
     color: var(--texto);
     font-size: 14px;
   }
+  .playwrite-au {
+  font-family: "Playwrite AU SA", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
   .contenedor { max-width: 640px; margin: 0 auto; padding: 12px 12px 48px; }
   .tarjeta {
     background: var(--tarjeta);
@@ -37,7 +44,10 @@
   .campo { margin-top: 28px; }
   .campo label { display: block; font-size: 16px; margin-bottom: 4px; line-height: 1.4; }
   .campo .ayuda { display: block; font-size: 12px; color: var(--texto-suave); margin-bottom: 6px; }
- 
+ footer p{
+  text-align: center;
+  font-size: 1rem;
+ }
   input[type="text"], input[type="number"], textarea {
     width: 100%;
     border: none;
